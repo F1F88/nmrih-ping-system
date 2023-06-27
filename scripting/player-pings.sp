@@ -22,7 +22,7 @@
 #define A				   3
 
 #define PLUGIN_DESCRIPTION "Allows players to highlight entities and place markers in the world"
-#define PLUGIN_VERSION	   "1.0.4"
+#define PLUGIN_VERSION	   "1.0.5"
 
 public Plugin myinfo =
 {
@@ -67,6 +67,7 @@ ConVar cvAllowDead;
 ConVar cvTextLocation;
 ConVar cvGlobalCooldown;
 ConVar cvLimit;
+ConVar cvAdminImmunity;
 ConVar cvEntityNameShort;
 ConVar cvCMDPingShortKey;
 
@@ -126,14 +127,15 @@ public void OnPluginStart()
 	LoadTranslations("player-pings.phrases");
 
 	cvEnabled			   = CreateConVar("sm_ping_enabled", "1", "Whether player pings are enabled");
-	cvTokensPerSecond	   = CreateConVar("sm_ping_cooldown_tokens_per_second", "0.05", "Tokens added to the bucket per second");
-	cvBucketSize		   = CreateConVar("sm_ping_cooldown_bucket_size", "3", "Number of command tokens that fit in the cooldown bucket");
-	cvGlobalCooldown	   = CreateConVar("sm_ping_cooldown_shared", "1", "Whether the ping cooldown applies to all players or each player separately");
+	cvTokensPerSecond	   = CreateConVar("sm_ping_cooldown_tokens_per_second", "0.00833", "Tokens added to the bucket per second");
+	cvBucketSize		   = CreateConVar("sm_ping_cooldown_bucket_size", "2", "Number of command tokens that fit in the cooldown bucket");
+	cvGlobalCooldown	   = CreateConVar("sm_ping_cooldown_shared", "0", "Whether the ping cooldown applies to all players or each player separately");
+	cvAdminImmunity		   = CreateConVar("sm_ping_cooldown_admin_immunity", "1", "Whether admins are immune to ping cooldowns");
 	cvIconOffset		   = CreateConVar("sm_ping_text_height_offset", "30.0", "Vertically offsets the ping caption from its target position by a specified amount, in game units");
 	cvColorR			   = CreateConVar("sm_ping_color_r", "10", "The red color component for player pings");
 	cvColorG			   = CreateConVar("sm_ping_color_g", "224", "The green color component for player pings");
 	cvColorB			   = CreateConVar("sm_ping_color_b", "247", "The blue color component for player pings");
-	cvShowDistance		   = CreateConVar("sm_ping_distance_show", "0", "If true, shows distance to the ping location in the caption");
+	cvShowDistance		   = CreateConVar("sm_ping_distance_show", "1", "If true, shows distance to the ping location in the caption");
 	cvShowDistanceInterval = CreateConVar("sm_ping_distance_update_interval", "0.3", "How often distance is updated in the ping caption");
 	cvDistanceUnits		   = CreateConVar("sm_ping_distance_default_units", "0", "Default distance units for players without preference. 0 = Meters, 1 = Feet, 2 = Hammer units", _,
 										  true, 0.0, true, (float)(view_as<int>(Unit_MAX) - 1));
@@ -289,11 +291,6 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 
 Action Cmd_Ping(int client, int args)
 {
-	if (!IsDedicatedServer() && GetCmdReplySource() == SM_REPLY_TO_CONSOLE)
-	{
-		client = FindEntityByClassname(-1, "player");
-	}
-
 	if (!client)
 	{
 		CReplyToCommand(client, "In-game command only.");
@@ -377,23 +374,20 @@ void DoPing(int client, int duration)
 
 	int	   hullEnt	 = TR_GetEntityIndex(hullTrace);
 
-	if( hullEnt >= 0 )
+	if (!IsValidEntity(hullEnt) || !CouldEntityGlow(hullEnt))
 	{
-		if (!CouldEntityGlow(hullEnt))
-		{
-			// If we didn't hit anything glowable with the hull, prefer ray trace and ping the world
-			float endPos[3];
-			TR_GetEndPosition(endPos, rayTrace);
+		// If we didn't hit anything glowable with the hull, prefer ray trace and ping the world
+		float endPos[3];
+		TR_GetEndPosition(endPos, rayTrace);
 
-			float normal[3];
-			TR_GetPlaneNormal(rayTrace, normal);
+		float normal[3];
+		TR_GetPlaneNormal(rayTrace, normal);
 
-			PingWorld(endPos, normal, client, duration);
-		}
-		else
-		{
-			PingEntity(hullEnt, client, duration);
-		}
+		PingWorld(endPos, normal, client, duration);
+	}
+	else
+	{
+		PingEntity(hullEnt, client, duration);
 	}
 
 	delete hullTrace;
@@ -958,7 +952,7 @@ void ComputeTangents(const float normal[3], float tangent1[3], float tangent2[3]
 
 bool CheckCanUsePing(int client)
 {
-	if (CheckCommandAccess(client, "ping_cooldown_immunity", ADMFLAG_PING))
+	if (cvAdminImmunity.BoolValue && CheckCommandAccess(client, "ping_cooldown_immunity", ADMFLAG_PING))
 	{
 		return true;
 	}
