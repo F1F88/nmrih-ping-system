@@ -161,6 +161,7 @@ public void OnPluginStart()
 
 	AutoExecConfig(true, "player-pings");
 	RegConsoleCmd("sm_ping", Cmd_Ping, "Place a marker on the location you are pointing at");
+	RegConsoleCmd("sm_mark", Cmd_Ping, "Place a marker on the location you are pointing at");
 
 	if (LibraryExists("clientprefs"))
 	{
