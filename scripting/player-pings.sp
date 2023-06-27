@@ -67,6 +67,8 @@ ConVar cvAllowDead;
 ConVar cvTextLocation;
 ConVar cvGlobalCooldown;
 ConVar cvLimit;
+ConVar cvEntityNameShort;
+ConVar cvCMDPingShortKey;
 
 int	   g_LaserIndex;
 int	   g_HaloIndex;
@@ -147,6 +149,8 @@ public void OnPluginStart()
 	cvAllowDead			   = CreateConVar("sm_ping_dead_can_use", "1", "Whether dead players can ping");
 	cvTextLocation		   = CreateConVar("sm_ping_text_location", "0", "Where to place the ping text. 0 = On screen, 1 = In the world");
 	cvLimit				   = CreateConVar("sm_ping_limit", "4", "The maximum number of pings that can be active at once", _, true, 1.0, true, (float)(MAX_PINGS));
+	cvEntityNameShort	   = CreateConVar("sm_ping_entity_name_short", "1", "Is the abbreviation of the entity name displayed (0=display complete)");
+	cvCMDPingShortKey	   = CreateConVar("sm_ping_cmd_short_key", "1", "The ping command shortcut key. 1=voice menu and the Use key. 2=voice menu and the Reload key");
 
 	CreateConVar("player_pings_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION,
 				 FCVAR_SPONLY | FCVAR_NOTIFY | FCVAR_DONTRECORD);
@@ -257,12 +261,26 @@ void OnPingSoundConVarChanged(ConVar convar, const char[] oldValue, const char[]
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-	if ((buttons & IN_VOICECMD) && (buttons & IN_USE) && cvEnabled.BoolValue)
+	if( cvCMDPingShortKey.IntValue & 1 )
 	{
-		int oldButtons = GetEntProp(client, Prop_Data, "m_nOldButtons");
-		if (!(oldButtons & IN_USE) && CheckCanUsePing(client))
+		if ((buttons & IN_VOICECMD) && (buttons & IN_USE) && cvEnabled.BoolValue)
 		{
-			DoPing(client, cvLifetime.IntValue);
+			int oldButtons = GetEntProp(client, Prop_Data, "m_nOldButtons");
+			if (!(oldButtons & IN_USE) && CheckCanUsePing(client))
+			{
+				DoPing(client, cvLifetime.IntValue);
+			}
+		}
+	}
+	else // if( cvPingShortcutKey.IntValue & 2 )
+	{
+		if ((buttons & IN_VOICECMD) && (buttons & IN_RELOAD) && cvEnabled.BoolValue)
+		{
+			int oldButtons = GetEntProp(client, Prop_Data, "m_nOldButtons");
+			if (!(oldButtons & IN_RELOAD) && CheckCanUsePing(client))
+			{
+				DoPing(client, cvLifetime.IntValue);
+			}
 		}
 	}
 
@@ -501,7 +519,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 		SetGlobalTransTarget(client);
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption));
+		FormatCaptionForClient(issuerName, pos, showDistance, client, 0, caption, sizeof(caption));
 
 		Handle	msg = StartMessageOne("PointMessage", client, USERMSG_BLOCKHOOKS);
 		BfWrite bf	= UserMessageToBfWrite(msg);
@@ -519,8 +537,11 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 	}
 }
 
-void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen)
+void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, int entity, char[] buffer, int maxlen)
 {
+	char entityTranslationsName[MAX_NAME_LENGTH];
+	GetEntityTranslationsName(entity, client, entityTranslationsName, MAX_NAME_LENGTH);
+
 	if (showDistance)
 	{
 		float clientPos[3];
@@ -534,11 +555,11 @@ void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDist
 		char unitsPhrase[32];
 		GetUnitsPhrase(units, unitsPhrase, sizeof(unitsPhrase));
 
-		Format(buffer, maxlen, "%T", "Caption With Distance", client, issuerName, distance, unitsPhrase, client);
+		Format(buffer, maxlen, "%T%s", "Caption With Distance", client, issuerName, distance, unitsPhrase, client, entityTranslationsName);
 	}
 	else
 	{
-		Format(buffer, maxlen, "%T", "Caption", client, issuerName);
+		Format(buffer, maxlen, "%T%s", "Caption", client, issuerName, entityTranslationsName);
 	}
 }
 
@@ -799,7 +820,7 @@ void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] is
 		}
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption));
+		FormatCaptionForClient(issuerName, pos, showDistance, client, entity, caption, sizeof(caption));
 
 		Event event = CreateEvent("instructor_server_hint_create", true);
 		event.SetString("hint_caption", caption);
@@ -1155,4 +1176,58 @@ int GetActivePings()
 	}
 
 	return count;
+}
+
+bool GetEntityTranslationsName(int entity, int client, char[] translationsName, int maxlength)
+{
+	if( ! IsValidEntity(entity) )
+	{
+		return false;
+	}
+
+	char entityClassName[64];
+	GetEntityClassname(entity, entityClassName, sizeof(entityClassName));
+
+	// If the entity is an ammo box, use model to distinguish
+	if( strncmp(entityClassName, "item_ammo_box", 13, true) == 0 )
+	{
+		char entityModelName[PLATFORM_MAX_PATH];
+		GetEntPropString(entity, Prop_Data, "m_ModelName", entityModelName, PLATFORM_MAX_PATH);
+
+		if( cvEntityNameShort.BoolValue )
+		{
+			Format(entityModelName, sizeof(entityModelName), "%s, Short", entityModelName);
+		}
+		else
+		{
+			Format(entityModelName, sizeof(entityModelName), "%s, Long", entityModelName);
+		}
+		// LogMessage(entityModelName);
+
+		if( TranslationPhraseExists(entityModelName) )
+		{
+			Format(translationsName, maxlength, "-%T", entityModelName, client);
+			return true;
+		}
+	}
+	else
+	{
+		if( cvEntityNameShort.BoolValue )
+		{
+			Format(entityClassName, sizeof(entityClassName), "%s, Short", entityClassName);
+		}
+		else
+		{
+			Format(entityClassName, sizeof(entityClassName), "%s, Long", entityClassName);
+		}
+		// LogMessage(entityClassName);
+
+		if( TranslationPhraseExists(entityClassName) )
+		{
+			Format(translationsName, maxlength, "-%T", entityClassName, client);
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -104,4 +104,799 @@
         "en"    "Enabled"
         "es"    "Activadas"
     }
+
+    // * Translation source
+    // - https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_english.txt
+    // - https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_spanish.txt
+	"bow_deerhunter, Long"
+	{
+		"en"		"PSE Deer Hunter"
+		"es"		"Arco de Caza PSE"
+	}
+
+	"exp_grenade, Long"
+	{
+		"en"		"M67 Grenade"
+		"es"		"Granada M67"
+	}
+
+	"exp_molotov, Long"
+	{
+		"en"		"Molotov"
+		"es"		"Molotov"
+	}
+
+	"exp_tnt, Long"
+	{
+		"en"		"TNT"
+		"es"		"TNT"
+	}
+
+	"fa_500a, Long"
+	{
+		"en"		"Mossberg 500a"
+		"es"		"Mossberg 500a"
+	}
+
+	"fa_870, Long"
+	{
+		"en"		"Remington 870"
+		"es"		"Remington 870"
+	}
+
+	"fa_1022, Long"
+	{
+		"en"		"Ruger 10/22"
+		"es"		"Ruger 10/22"
+	}
+
+	"fa_1022_25mag, Long"
+	{
+		"en"		"Ruger 10/22 w/ Extended Magazine"
+		"es"		"Ruger 10/22 (c/ Cargador Ext.)"
+	}
+
+	"fa_1911, Long"
+	{
+		"en"		"Colt 1911"
+		"es"		"Colt 1911"
+	}
+
+	"fa_cz858, Long"
+	{
+		"en"		"CZ858"
+		"es"		"CZ858"
+	}
+
+	"fa_fnfal, Long"
+	{
+		"en"		"FN FAL"
+		"es"		"FN FAL"
+	}
+
+	"fa_glock17, Long"
+	{
+		"en"		"Glock 17"
+		"es"		"Glock 17"
+	}
+
+	"fa_jae700, Long"
+	{
+		"en"		"JAE-700"
+		"es"		"JAE-700"
+	}
+
+	"fa_m16a4, Long"
+	{
+		"en"		"M16A4"
+		"es"		"M16A4 (c/ Óptica)"
+	}
+
+	"fa_m16a4_carryhandle, Long"
+	{
+		"en"		"M16A4 w/ Carry Handle"
+		"es"		"M16A4"
+	}
+
+	"fa_m92fs, Long"
+	{
+		"en"		"Beretta M92FS"
+		"es"		"Beretta M92FS"
+	}
+
+	"fa_mac10, Long"
+	{
+		"en"		"Ingram Mac-10"
+		"es"		"Ingram Mac-10"
+	}
+
+	"fa_mp5a4, Long"
+	{
+		"en"		"Heckler & Koch MP5A4"
+		"es"		"Heckler & Koch MP5A4"
+	}
+
+	"fa_mkiii, Long"
+	{
+		"en"		"Ruger MKIII"
+		"es"		"Ruger MKIII"
+	}
+
+	"fa_sako85, Long"
+	{
+		"en"		"Sako 85 (Scoped)"
+		"es"		"Sako 85 (c/ Óptica)"
+	}
+
+	"fa_sako85_ironsights, Long"
+	{
+		"en"		"Sako 85 (Ironsights)"
+		"es"		"Sako 85"
+	}
+
+	"fa_sks, Long"
+	{
+		"en"		"Simonov SKS (Bayonet)"
+		"es"		"Simonov SKS (c/ Bayoneta)"
+	}
+
+	"fa_sks_nobayo, Long"
+	{
+		"en"		"Simonov SKS (No Bayonet)"
+		"es"		"Simonov SKS"
+	}
+
+	"fa_superx3, Long"
+	{
+		"en"		"Winchester Super X3"
+		"es"		"Winchester Super X3"
+	}
+
+	"fa_sv10, Long"
+	{
+		"en"		"Beretta Perennia SV10"
+		"es"		"Beretta Perennia SV10"
+	}
+
+	"fa_sw686, Long"
+	{
+		"en"		"Smith & Wesson 686"
+		"es"		"Smith & Wesson 686"
+	}
+
+	"fa_winchester1892, Long"
+	{
+		"en"		"Winchester 1892"
+		"es"		"Winchester 1892"
+	}
+
+	"item_bandages, Long"
+	{
+		"en"		"Bandages"
+		"es"		"Vendajes"
+	}
+
+	"item_maglite, Long"
+	{
+		"en"		"Maglite"
+		"es"		"Linterna"
+	}
+
+	"item_pills, Long"
+	{
+		"en"		"Phalanx Pills"
+		"es"		"Píldoras Phalanx"
+	}
+
+	"item_first_aid, Long"
+	{
+		"en"		"First Aid Kit"
+		"es"		"Kit de primeros auxilios"
+	}
+
+	"item_gene_therapy, Long"
+	{
+		"en"		"Gene Therapy"
+		"es"		"Terapia de Genes"
+	}
+
+	"item_walkietalkie, Long"
+	{
+		"en"		"Walkie Talkie"
+		"es"		"Walkie Talkie"
+	}
+
+	"me_abrasivesaw, Long"
+	{
+		"en"		"Abrasive Saw"
+		"es"		"Sierra abrasiva"
+	}
+
+	"me_axe_fire, Long"
+	{
+		"en"		"Fire Axe"
+		"es"		"Hacha de bombero"
+	}
+
+	"me_bat_metal, Long"
+	{
+		"en"		"Baseball Bat"
+		"es"		"Bate de béisbol"
+	}
+
+	"me_chainsaw, Long"
+	{
+		"en"		"Chainsaw"
+		"es"		"Motosierra"
+	}
+
+	"me_crowbar, Long"
+	{
+		"en"		"Crowbar"
+		"es"		"Palanca"
+	}
+
+	"me_cleaver, Long"
+	{
+		"en"		"Cleaver"
+		"es"		"Cuchillo de carnicero"
+	}
+
+	"me_etool, Long"
+	{
+		"en"		"E-Tool"
+		"es"		"Pala de trinchera"
+	}
+
+	"me_fubar, Long"
+	{
+		"en"		"Fubar"
+		"es"		"Fubar"
+	}
+
+	"me_hatchet, Long"
+	{
+		"en"		"Hatchet"
+		"es"		"Hacha de mano"
+	}
+
+	"me_kitknife, Long"
+	{
+		"en"		"Kit Knife"
+		"es"		"Cuchillo de cocina"
+	}
+
+	"me_machete, Long"
+	{
+		"en"		"Machete"
+		"es"		"Machete"
+	}
+
+	"me_pickaxe, Long"
+	{
+		"en"		"Pickaxe"
+		"es"		"Pico"
+	}
+
+	"me_pipe_lead, Long"
+	{
+		"en"		"Lead Pipe"
+		"es"		"Tubo de plomo"
+	}
+
+	"me_shovel, Long"
+	{
+		"en"		"Shovel"
+		"es"		"Pala"
+	}
+
+	"me_sledge, Long"
+	{
+		"en"		"Sledgehammer"
+		"es"		"Mazo"
+	}
+
+	"me_wrench, Long"
+	{
+		"en"		"Wrench"
+		"es"		"Llave inglesa"
+	}
+
+	"tool_barricade, Long"
+	{
+		"en"		"Barricade Hammer"
+		"es"		"Martillo de barricada"
+	}
+
+	"tool_extinguisher, Long"
+	{
+		"en"		"Fire Extinguisher"
+		"es"		"Extintor"
+	}
+
+	"tool_flare_gun, Long"
+	{
+		"en"		"Flare Gun"
+		"es"		"Pistola de bengalas"
+	}
+
+	"tool_welder, Long"
+	{
+		"en"		"Cutting Torch"
+		"es"		"Soldador"
+	}
+
+	"models/items/ammo/ammo_9mm.mdl, Long"
+	{
+		"en"		"9mm"
+		"es"		"9mm"
+	}
+
+	"models/items/ammo/ammo_45acp.mdl, Long"
+	{
+		"en"		".45 ACP"
+		"es"		".45 ACP"
+	}
+
+	"models/items/ammo/ammo_357.mdl, Long"
+	{
+		"en"		".357"
+		"es"		".357"
+	}
+
+	"models/items/ammo/ammo_12g.mdl, Long"
+	{
+		"en"		"12 Gauge"
+		"es"		"12 Gauge"
+	}
+
+	"models/items/ammo/ammo_22lr.mdl, Long"
+	{
+		"en"		".22 LR"
+		"es"		".22 LR"
+	}
+
+	"models/items/ammo/ammo_308.mdl, Long"
+	{
+		"en"		".308"
+		"es"		".308"
+	}
+
+	"models/items/ammo/ammo_556.mdl, Long"
+	{
+		"en"		"5.56mm"
+		"es"		"5.56mm"
+	}
+
+	"models/items/ammo/ammo_762.mdl, Long"
+	{
+		"en"		"7.62x39"
+		"es"		"7.62x39"
+	}
+
+	"models/items/ammo/ammo_arrow_box.mdl, Long"
+	{
+		"en"		"Arrow"
+		"es"		"Flechas"
+	}
+
+	"models/items/ammo/ammo_gascan.mdl, Long"
+	{
+		"en"		"Fuel"
+		"es"		"Combustible"
+	}
+
+	"models/items/ammo/ammo_flares.mdl, Long"
+	{
+		"en"		"Flare"
+		"es"		"Bengalas"
+	}
+
+	"models/weapons/tool_barricade/w_barricadeboard.mdl, Long"
+	{
+		"en"		"Boardss"
+		"es"		"Tablas"
+	}
+
+	"projectile_arrow, Long"
+	{
+		"en"		"Arrow"
+		"es"		"Arrow"
+	}
+
+	"bow_deerhunter, Short"
+	{
+		"en"		"PSE D. Hunt."
+		"es"		"Arco PSE"
+	}
+
+	"exp_grenade, Short"
+	{
+		"en"		"Grenade"
+		"es"		"Granada"
+	}
+
+	"exp_molotov, Short"
+	{
+		"en"		"Molotov"
+		"es"		"Molotov"
+	}
+
+	"exp_tnt, Short"
+	{
+		"en"		"TNT"
+		"es"		"TNT"
+	}
+
+	"fa_500a, Short"
+	{
+		"en"		"Moss. 500a"
+		"es"		"Moss. 500a"
+	}
+
+	"fa_870, Short"
+	{
+		"en"		"Rem. 870"
+		"es"		"Rem. 870"
+	}
+
+	"fa_1022, Short"
+	{
+		"en"		"Ruger 10/22"
+		"es"		"Ruger 10/22"
+	}
+
+	"fa_1022_25mag, Short"
+	{
+		"en"		"Ruger 10/22 w/ 25rnd"
+		"es"		"Ruger (25bls.)"
+	}
+
+	"fa_1911, Short"
+	{
+		"en"		"Colt 1911"
+		"es"		"Colt 1911"
+	}
+
+	"fa_cz858, Short"
+	{
+		"en"		"CZ858"
+		"es"		"CZ858"
+	}
+
+	"fa_fnfal, Short"
+	{
+		"en"		"FN FAL"
+		"es"		"FN FAL"
+	}
+
+	"fa_glock17, Short"
+	{
+		"en"		"Glock 17"
+		"es"		"Glock 17"
+	}
+
+	"fa_jae700, Short"
+	{
+		"en"		"JAE-700"
+		"es"		"JAE-700"
+	}
+
+	"fa_m16a4, Short"
+	{
+		"en"		"M16A4"
+		"es"		"M16A4 (Óptica)"
+	}
+
+	"fa_m16a4_carryhandle, Short"
+	{
+		"en"		"M16A4"
+		"es"		"M16A4"
+	}
+
+	"fa_m92fs, Short"
+	{
+		"en"		"M92FS"
+		"es"		"M92FS"
+	}
+
+	"fa_mac10, Short"
+	{
+		"en"		"MAC-10"
+		"es"		"MAC-10"
+	}
+
+	"fa_mkiii, Short"
+	{
+		"en"		"Ruger MKIII"
+		"es"		"Ruger MKIII"
+	}
+
+	"fa_mp5a3, Short"
+	{
+		"en"		"MP5A4"
+		"es"		"MP5A4"
+	}
+
+	"fa_sako85, Short"
+	{
+		"en"		"Sako 85 (Scope)"
+		"es"		"Sako 85 (Ópt.)"
+	}
+
+	"fa_sako85_ironsights, Short"
+	{
+		"en"		"Sako 85 (Iron)"
+		"es"		"Sako 85"
+	}
+
+	"fa_sks, Short"
+	{
+		"en"		"SKS (Bayo)"
+		"es"		"SKS (Bayoneta)"
+	}
+
+	"fa_sks_nobayo, Short"
+	{
+		"en"		"SKS (No Bayo)"
+		"es"		"SKS"
+	}
+
+	"fa_superx3, Short"
+	{
+		"en"		"Super X3"
+		"es"		"Super X3"
+	}
+
+	"fa_sv10, Short"
+	{
+		"en"		"SV10"
+		"es"		"SV10"
+	}
+
+	"fa_sw686, Short"
+	{
+		"en"		"S&W 686"
+		"es"		"S&W 686"
+	}
+
+	"fa_winchester1892, Short"
+	{
+		"en"		"Win. 1892"
+		"es"		"Win. 1892"
+	}
+
+	"item_bandages, Short"
+	{
+		"en"		"Bandages"
+		"es"		"Vendajes"
+	}
+
+	"item_maglite, Short"
+	{
+		"en"		"Maglite"
+		"es"		"Linterna"
+	}
+
+	"item_pills, Short"
+	{
+		"en"		"Pills"
+		"es"		"Píldoras"
+	}
+
+	"item_first_aid, Short"
+	{
+		"en"		"First Aid"
+		"es"		"Primeros aux."
+	}
+
+	"item_gene_therapy, Short"
+	{
+		"en"		"Gene Therapy"
+		"es"		"Terapia de Gen"
+	}
+
+	"item_walkietalkie, Short"
+	{
+		"en"		"Walkie Talkie"
+		"es"		"Walkie"
+	}
+
+	"me_abrasivesaw, Short"
+	{
+		"en"		"Abrasive Saw"
+		"es"		"Sierra abr."
+	}
+
+	"me_axe_fire, Short"
+	{
+		"en"		"Fire Axe"
+		"es"		"Hacha"
+	}
+
+	"me_bat_metal, Short"
+	{
+		"en"		"Baseball Bat"
+		"es"		"Bate"
+	}
+
+	"me_chainsaw, Short"
+	{
+		"en"		"Chainsaw"
+		"es"		"Motosierra"
+	}
+
+	"me_crowbar, Short"
+	{
+		"en"		"Crowbar"
+		"es"		"Palanca"
+	}
+
+	"me_cleaver, Short"
+	{
+		"en"		"Cleaver"
+		"es"		"Cuchillo de c."
+	}
+
+	"me_etool, Short"
+	{
+		"en"		"E-Tool"
+		"es"		"Pala de trin."
+	}
+
+	"me_fubar, Short"
+	{
+		"en"		"Fubar"
+		"es"		"Fubar"
+	}
+
+	"me_hatchet, Short"
+	{
+		"en"		"Hatchet"
+		"es"		"Hacha de mano"
+	}
+
+	"me_kitknife, Short"
+	{
+		"en"		"Kit Knife"
+		"es"		"Cuchillo"
+	}
+
+	"me_machete, Short"
+	{
+		"en"		"Machete"
+		"es"		"Machete"
+	}
+
+	"me_pickaxe, Short"
+	{
+		"en"		"Pickaxe"
+		"es"		"Pico"
+	}
+
+	"me_pipe_lead, Short"
+	{
+		"en"		"Lead Pipe"
+		"es"		"Tubo"
+	}
+
+	"me_shovel, Short"
+	{
+		"en"		"Shovel"
+		"es"		"Pala"
+	}
+
+	"me_sledge, Short"
+	{
+		"en"		"Sledge"
+		"es"		"Martillo"
+	}
+
+	"me_wrench, Short"
+	{
+		"en"		"Wrench"
+		"es"		"Llave ing."
+	}
+
+	"tool_barricade, Short"
+	{
+		"en"		"Barr. Tool"
+		"es"		"Martillo bar."
+	}
+
+	"tool_extinguisher, Short"
+	{
+		"en"		"Fire Exting."
+		"es"		"Extintor"
+	}
+
+	"tool_flare_gun, Short"
+	{
+		"en"		"Flare Gun"
+		"es"		"Lanza bengalas"
+	}
+
+	"tool_welder, Short"
+	{
+		"en"		"Cutting Torch"
+		"es"		"Soldador"
+	}
+
+	"models/items/ammo/ammo_9mm.mdl, Short"
+	{
+		"en"		"9mm"
+		"es"		"9mm"
+	}
+
+	"models/items/ammo/ammo_45acp.mdl, Short"
+	{
+		"en"		".45 ACP"
+		"es"		".45 ACP"
+	}
+
+	"models/items/ammo/ammo_357.mdl, Short"
+	{
+		"en"		".357"
+		"es"		".357"
+	}
+
+	"models/items/ammo/ammo_12g.mdl, Short"
+	{
+		"en"		"12 Gauge"
+		"es"		"12 Gauge"
+	}
+
+	"models/items/ammo/ammo_22lr.mdl, Short"
+	{
+		"en"		".22 LR"
+		"es"		".22 LR"
+	}
+
+	"models/items/ammo/ammo_308.mdl, Short"
+	{
+		"en"		".308"
+		"es"		".308"
+	}
+
+	"models/items/ammo/ammo_556.mdl, Short"
+	{
+		"en"		"5.56mm"
+		"es"		"5.56mm"
+	}
+
+	"models/items/ammo/ammo_762.mdl, Short"
+	{
+		"en"		"7.62x39"
+		"es"		"7.62x39"
+	}
+
+	"models/items/ammo/ammo_arrow_box.mdl, Short"
+	{
+		"en"		"Arrow"
+		"es"		"Flechas"
+	}
+
+	"models/items/ammo/ammo_gascan.mdl, Short"
+	{
+		"en"		"Fuel"
+		"es"		"Combustible"
+	}
+
+	"models/items/ammo/ammo_flares.mdl, Short"
+	{
+		"en"		"Flare"
+		"es"		"Bengalas"
+	}
+
+	"models/weapons/tool_barricade/w_barricadeboard.mdl, Short"
+	{
+		"en"		"Boardss"
+		"es"		"Tablas"
+	}
+
+	"projectile_arrow, Short"
+	{
+		"en"		"Arrow"
+		"es"		"Arrow"
+	}
 }

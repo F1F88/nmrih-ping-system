@@ -1,0 +1,752 @@
+"Phrases"
+{
+    "Hammer Units, Long"
+    {
+        "chi"       "Hammer 单位"
+    }
+
+    "Feet, Long"
+    {
+        "chi"       "步"
+    }
+
+    "Meters, Long"
+    {
+        "chi"       "米"
+    }
+
+    "Hammer Units, Short"
+    {
+        "chi"       "hu"
+    }
+
+    "Feet, Short"
+    {
+        "chi"       "步"
+    }
+
+    "Meters, Short"
+    {
+        "chi"       "米"
+    }
+
+    "Caption With Distance"
+    {
+        "#format"   "{1:s},{2:.f},{3:T}"
+        "chi"       "{1} ({2} {3})"
+    }
+
+    "Caption"
+    {
+        "#format"    "{1:s}"
+        "chi"        "{1}"
+    }
+
+    "Must Be Alive"
+    {
+        "chi"       "请在存活时使用"
+    }
+
+    "Ping Disabled"
+    {
+        "chi"       "玩家标记已禁用"
+    }
+
+    "Too Many Pings"
+    {
+        "chi"       "无法标记：标记过多"
+    }
+
+    "On Cooldown"
+    {
+        "#format"   "{1:d}"
+        "chi"       "无法标记：冷却中 {1} 秒"
+    }
+
+    "Ping Settings Title"
+    {
+        "chi"       "玩家标记"
+    }
+
+    "Setting: Toggle"
+    {
+        "chi"       "玩家标记"
+    }
+
+    "Setting: Units"
+    {
+        "chi"       "距离单位"
+    }
+
+    "Cookie Disabled"
+    {
+        "chi"       "已禁用"
+    }
+
+    "Cookie Enabled"
+    {
+        "chi"       "已启用"
+    }
+
+
+    // * 翻译取自: https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_schinese.txt
+	"bow_deerhunter, Long"
+	{
+		"chi"		"PSE 猎鹿者 复合弓"
+	}
+
+	"exp_grenade, Long"
+	{
+		"chi"		"M67 手榴弹"
+	}
+
+	"exp_molotov, Long"
+	{
+		"chi"		"莫洛托夫 燃烧瓶"
+	}
+
+	"exp_tnt, Long"
+	{
+		"chi"		"TNT 炸药"
+	}
+
+	"fa_500a, Long"
+	{
+		"chi"		"莫斯伯格 500a 霰弹枪"
+	}
+
+	"fa_870, Long"
+	{
+		"chi"		"雷明顿 870 霰弹枪"
+	}
+
+	"fa_1022, Long"
+	{
+		"chi"		"鲁格 10/22 小口径步枪"
+	}
+
+	"fa_1022_25mag, Long"
+	{
+		"chi"		"鲁格 10/22 小口径步枪(扩容弹夹)"
+	}
+
+	"fa_1911, Long"
+	{
+		"chi"		"柯尔特 1911 手枪"
+	}
+
+	"fa_cz858, Long"
+	{
+		"chi"		"CZ858 突击步枪"
+	}
+
+	"fa_fnfal, Long"
+	{
+		"chi"		"FN FAL 半自动步枪"
+	}
+
+	"fa_glock17, Long"
+	{
+		"chi"		"格洛克 17 手枪"
+	}
+
+	"fa_jae700, Long"
+	{
+		"chi"		"雷明登 JAE-700 狙击步枪"
+	}
+
+	"fa_m16a4, Long"
+	{
+		"chi"		"M16A4 自动步枪(光学瞄镜)"
+	}
+
+	"fa_m16a4_carryhandle, Long"
+	{
+		"chi"		"M16A4 自动步枪(机械瞄具)"
+	}
+
+	"fa_m92fs, Long"
+	{
+		"chi"		"贝雷塔 M92FS 手枪"
+	}
+
+	"fa_mac10, Long"
+	{
+		"chi"		"英格拉姆 Mac-10 冲锋枪"
+	}
+
+	"fa_mp5a3, Long"
+	{
+		"chi"		"H&K MP5A4 冲锋枪"
+	}
+
+	"fa_mkiii, Long"
+	{
+		"chi"		"斯特姆-鲁格 MK3 小口径手枪"
+	}
+
+	"fa_sako85, Long"
+	{
+		"chi"		"萨科 85 狙击步枪(狙击镜)"
+	}
+
+	"fa_sako85_ironsights, Long"
+	{
+		"chi"		"萨科 85 狙击步枪(机械瞄具)"
+	}
+
+	"fa_sks, Long"
+	{
+		"chi"		"西蒙诺夫 SKS 半自动步枪(刺刀)"
+	}
+
+	"fa_sks_nobayo, Long"
+	{
+		"chi"		"西蒙诺夫 SKS 半自动步枪(无刺刀)"
+	}
+
+	"fa_superx3, Long"
+	{
+		"chi"		"温彻斯特 Super X3 半自动霰弹枪"
+	}
+
+	"fa_sv10, Long"
+	{
+		"chi"		"贝雷塔 Perennia SV10 双管霰弹枪"
+	}
+
+	"fa_sw686, Long"
+	{
+		"chi"		"史密斯&威森 686 左轮手枪"
+	}
+
+	"fa_winchester1892, Long"
+	{
+		"chi"		"温彻斯特 1892 杠杆式步枪"
+	}
+
+	"item_bandages, Long"
+	{
+		"chi"		"绷带"
+	}
+
+	"item_maglite, Long"
+	{
+		"chi"		"手电筒"
+	}
+
+	"item_pills, Long"
+	{
+		"chi"		"Phalanx 药片"
+	}
+
+	"item_first_aid, Long"
+	{
+		"chi"		"急救包"
+	}
+
+	"item_gene_therapy, Long"
+	{
+		"chi"		"基因治疗针"
+	}
+
+	"item_walkietalkie, Long"
+	{
+		"chi"		"对讲机"
+	}
+
+	"me_abrasivesaw, Long"
+	{
+		"chi"		"无齿锯"
+	}
+
+	"me_axe_fire, Long"
+	{
+		"chi"		"消防斧"
+	}
+
+	"me_bat_metal, Long"
+	{
+		"chi"		"棒球棍"
+	}
+
+	"me_chainsaw, Long"
+	{
+		"chi"		"电锯"
+	}
+
+	"me_crowbar, Long"
+	{
+		"chi"		"撬棍"
+	}
+
+	"me_cleaver, Long"
+	{
+		"chi"		"切肉刀"
+	}
+
+	"me_etool, Long"
+	{
+		"chi"		"折叠工兵铲"
+	}
+
+	"me_fubar, Long"
+	{
+		"chi"		"Fubar多功能消防锤"
+	}
+
+	"me_hatchet, Long"
+	{
+		"chi"		"手斧"
+	}
+
+	"me_kitknife, Long"
+	{
+		"chi"		"小菜刀"
+	}
+
+	"me_machete, Long"
+	{
+		"chi"		"砍刀"
+	}
+
+	"me_pickaxe, Long"
+	{
+		"chi"		"十字镐"
+	}
+
+	"me_pipe_lead, Long"
+	{
+		"chi"		"水管"
+	}
+
+	"me_shovel, Long"
+	{
+		"chi"		"铁锹"
+	}
+
+	"me_sledge, Long"
+	{
+		"chi"		"长柄大锤"
+	}
+
+	"me_wrench, Long"
+	{
+		"chi"		"扳手"
+	}
+
+	"tool_barricade, Long"
+	{
+		"chi"		"钉板锤"
+	}
+
+	"tool_extinguisher, Long"
+	{
+		"chi"		"灭火器"
+	}
+
+	"tool_flare_gun, Long"
+	{
+		"chi"		"信号枪"
+	}
+
+	"tool_welder, Long"
+	{
+		"chi"		"焊枪"
+	}
+
+	"models/items/ammo/ammo_9mm.mdl, Long"
+	{
+		"chi"		"9毫米手枪弹"
+	}
+
+	"models/items/ammo/ammo_45acp.mdl, Long"
+	{
+		"chi"		".45自动手枪弹"
+	}
+
+	"models/items/ammo/ammo_357.mdl, Long"
+	{
+		"chi"		".357马格南子弹"
+	}
+
+	"models/items/ammo/ammo_12g.mdl, Long"
+	{
+		"chi"		"12号霰弹"
+	}
+
+	"models/items/ammo/ammo_22lr.mdl, Long"
+	{
+		"chi"		".22小口径运动弹"
+	}
+
+	"models/items/ammo/ammo_308.mdl, Long"
+	{
+		"chi"		".308温彻斯特步枪弹"
+	}
+
+	"models/items/ammo/ammo_556.mdl, Long"
+	{
+		"chi"		"5.56毫米步枪弹"
+	}
+
+	"models/items/ammo/ammo_762.mdl, Long"
+	{
+		"chi"		"7.62x39步枪弹"
+	}
+
+	"models/items/ammo/ammo_arrow_box.mdl, Long"
+	{
+		"chi"		"箭矢"
+	}
+
+	"models/items/ammo/ammo_gascan.mdl, Long"
+	{
+		"chi"		"燃料"
+	}
+
+	"models/items/ammo/ammo_flares.mdl, Long"
+	{
+		"chi"		"信号弹"
+	}
+
+	"models/weapons/tool_barricade/w_barricadeboard.mdl, Long"
+	{
+		"chi"		"木板"
+	}
+
+	"projectile_arrow, Long"
+	{
+		"chi"		"箭"
+	}
+
+	"bow_deerhunter, Short"
+	{
+		"chi"		"复合弓"
+	}
+
+	"exp_grenade, Short"
+	{
+		"chi"		"手榴弹"
+	}
+
+	"exp_molotov, Short"
+	{
+		"chi"		"燃烧瓶"
+	}
+
+	"exp_tnt, Short"
+	{
+		"chi"		"TNT"
+	}
+
+	"fa_500a, Short"
+	{
+		"chi"		"M500a"
+	}
+
+	"fa_870, Short"
+	{
+		"chi"		"M870"
+	}
+
+	"fa_1022, Short"
+	{
+		"chi"		"鲁格 10/22"
+	}
+
+	"fa_1022_25mag, Short"
+	{
+		"chi"		"鲁格 10/22 扩容"
+	}
+
+	"fa_1911, Short"
+	{
+		"chi"		"M1911"
+	}
+
+	"fa_cz858, Short"
+	{
+		"chi"		"CZ858"
+	}
+
+	"fa_fnfal, Short"
+	{
+		"chi"		"FN FAL"
+	}
+
+	"fa_glock17, Short"
+	{
+		"chi"		"G17"
+	}
+
+	"fa_jae700, Short"
+	{
+		"chi"		"JAE-700"
+	}
+
+	"fa_m16a4, Short"
+	{
+		"chi"		"M16A4 瞄镜"
+	}
+
+	"fa_m16a4_carryhandle, Short"
+	{
+		"chi"		"M16A4 机瞄"
+	}
+
+	"fa_m92fs, Short"
+	{
+		"chi"		"M92FS"
+	}
+
+	"fa_mac10, Short"
+	{
+		"chi"		"MAC10"
+	}
+
+	"fa_mkiii, Short"
+	{
+		"chi"		"鲁格 MK3"
+	}
+
+	"fa_mp5a3, Short"
+	{
+		"chi"		"MP5A4"
+	}
+
+	"fa_sako85, Short"
+	{
+		"chi"		"萨科 85(瞄镜)"
+	}
+
+	"fa_sako85_ironsights, Short"
+	{
+		"chi"		"萨科 85(机瞄)"
+	}
+
+	"fa_sks, Short"
+	{
+		"chi"		"SKS(刺刀)"
+	}
+
+	"fa_sks_nobayo, Short"
+	{
+		"chi"		"SKS(无刺刀)"
+	}
+
+	"fa_superx3, Short"
+	{
+		"chi"		"Super X3"
+	}
+
+	"fa_sv10, Short"
+	{
+		"chi"		"SV10"
+	}
+
+	"fa_sw686, Short"
+	{
+		"chi"		"S&W 686"
+	}
+
+	"fa_winchester1892, Short"
+	{
+		"chi"		"Win. 1892"
+	}
+
+	"item_bandages, Short"
+	{
+		"chi"		"绷带"
+	}
+
+	"item_maglite, Short"
+	{
+		"chi"		"手电筒"
+	}
+
+	"item_pills, Short"
+	{
+		"chi"		"药片"
+	}
+
+	"item_first_aid, Short"
+	{
+		"chi"		"急救包"
+	}
+
+	"item_gene_therapy, Short"
+	{
+		"chi"		"基因治疗针"
+	}
+
+	"item_walkietalkie, Short"
+	{
+		"chi"		"对讲机"
+	}
+
+	"me_abrasivesaw, Short"
+	{
+		"chi"		"无齿锯"
+	}
+
+	"me_axe_fire, Short"
+	{
+		"chi"		"消防斧"
+	}
+
+	"me_bat_metal, Short"
+	{
+		"chi"		"棒球棍"
+	}
+
+	"me_chainsaw, Short"
+	{
+		"chi"		"电锯"
+	}
+
+	"me_crowbar, Short"
+	{
+		"chi"		"撬棍"
+	}
+
+	"me_cleaver, Short"
+	{
+		"chi"		"切肉刀"
+	}
+
+	"me_etool, Short"
+	{
+		"chi"		"折叠铲"
+	}
+
+	"me_fubar, Short"
+	{
+		"chi"		"Fubar多功能锤"
+	}
+
+	"me_hatchet, Short"
+	{
+		"chi"		"手斧"
+	}
+
+	"me_kitknife, Short"
+	{
+		"chi"		"小菜刀"
+	}
+
+	"me_machete, Short"
+	{
+		"chi"		"砍刀"
+	}
+
+	"me_pickaxe, Short"
+	{
+		"chi"		"十字镐"
+	}
+
+	"me_pipe_lead, Short"
+	{
+		"chi"		"水管"
+	}
+
+	"me_shovel, Short"
+	{
+		"chi"		"铁锹"
+	}
+
+	"me_sledge, Short"
+	{
+		"chi"		"大锤"
+	}
+
+	"me_wrench, Short"
+	{
+		"chi"		"扳手"
+	}
+
+	"tool_barricade, Short"
+	{
+		"chi"		"钉锤"
+	}
+
+	"tool_extinguisher, Short"
+	{
+		"chi"		"灭火器"
+	}
+
+	"tool_flare_gun, Short"
+	{
+		"chi"		"信号枪"
+	}
+
+	"tool_welder, Short"
+	{
+		"chi"		"焊枪"
+	}
+
+	"models/items/ammo/ammo_9mm.mdl, Short"
+	{
+		"chi"		"9mm"
+	}
+
+	"models/items/ammo/ammo_45acp.mdl, Short"
+	{
+		"chi"		".45 ACP"
+	}
+
+	"models/items/ammo/ammo_357.mdl, Short"
+	{
+		"chi"		".357"
+	}
+
+	"models/items/ammo/ammo_12g.mdl, Short"
+	{
+		"chi"		"12 Gauge"
+	}
+
+	"models/items/ammo/ammo_22lr.mdl, Short"
+	{
+		"chi"		".22 LR"
+	}
+
+	"models/items/ammo/ammo_308.mdl, Short"
+	{
+		"chi"		".308"
+	}
+
+	"models/items/ammo/ammo_556.mdl, Short"
+	{
+		"chi"		"5.56mm"
+	}
+
+	"models/items/ammo/ammo_762.mdl, Short"
+	{
+		"chi"		"7.62x39"
+	}
+
+	"models/items/ammo/ammo_arrow_box.mdl, Short"
+	{
+		"chi"		"箭"
+	}
+
+	"models/items/ammo/ammo_gascan.mdl, Short"
+	{
+		"chi"		"燃料"
+	}
+
+	"models/items/ammo/ammo_flares.mdl, Short"
+	{
+		"chi"		"信号弹"
+	}
+
+	"models/weapons/tool_barricade/w_barricadeboard.mdl, Short"
+	{
+		"chi"		"木板"
+	}
+
+	"projectile_arrow, Short"
+	{
+		"chi"		"箭"
+	}
+}
