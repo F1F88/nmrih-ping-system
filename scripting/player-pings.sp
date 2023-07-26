@@ -68,7 +68,7 @@ ConVar cvTextLocation;
 ConVar cvGlobalCooldown;
 ConVar cvLimit;
 ConVar cvAdminImmunity;
-ConVar cvEntityNameShort;
+ConVar cvShowEntityName;
 ConVar cvCMDPingShortKey;
 
 int	   g_LaserIndex;
@@ -151,7 +151,7 @@ public void OnPluginStart()
 	cvAllowDead			   = CreateConVar("sm_ping_dead_can_use", "1", "Whether dead players can ping");
 	cvTextLocation		   = CreateConVar("sm_ping_text_location", "0", "Where to place the ping text. 0 = On screen, 1 = In the world");
 	cvLimit				   = CreateConVar("sm_ping_limit", "4", "The maximum number of pings that can be active at once", _, true, 1.0, true, (float)(MAX_PINGS));
-	cvEntityNameShort	   = CreateConVar("sm_ping_entity_name_short", "1", "Is the abbreviation of the entity name displayed (0=display complete)");
+	cvShowEntityName	   = CreateConVar("sm_ping_show_entity_name", "1", "Whether to display the entity name (0=disabled | 1=display abbreviation | 2=display complete)");
 	cvCMDPingShortKey	   = CreateConVar("sm_ping_cmd_short_key", "1", "The ping command shortcut key. 1=voice menu and the Use key. 2=voice menu and the Reload key");
 
 	CreateConVar("player_pings_version", PLUGIN_VERSION, PLUGIN_DESCRIPTION,
@@ -397,8 +397,8 @@ void DoPing(int client, int duration)
 
 bool CouldEntityGlow(int entity)
 {
-	char classname[32];
-	GetEntityClassname(entity, classname, sizeof(classname));
+	// char classname[32];
+	// GetEntityClassname(entity, classname, sizeof(classname));
 
 	return IsValidEdict(entity) && HasEntProp(entity, Prop_Send, "m_bGlowing") && HasEntProp(entity, Prop_Data, "m_bIsGlowable") && HasEntProp(entity, Prop_Data, "m_clrGlowColor") && HasEntProp(entity, Prop_Data, "m_flGlowDistance");
 }
@@ -514,7 +514,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 		SetGlobalTransTarget(client);
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, 0, caption, sizeof(caption));
+		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption), false, "");
 
 		Handle	msg = StartMessageOne("PointMessage", client, USERMSG_BLOCKHOOKS);
 		BfWrite bf	= UserMessageToBfWrite(msg);
@@ -532,11 +532,8 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 	}
 }
 
-void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, int entity, char[] buffer, int maxlen)
+void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen, bool show_entity_phrases, char[] entity_phrases_key)
 {
-	char entityTranslationsName[MAX_NAME_LENGTH];
-	GetEntityTranslationsName(entity, client, entityTranslationsName, MAX_NAME_LENGTH);
-
 	if (showDistance)
 	{
 		float clientPos[3];
@@ -549,12 +546,26 @@ void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDist
 
 		char unitsPhrase[32];
 		GetUnitsPhrase(units, unitsPhrase, sizeof(unitsPhrase));
-
-		Format(buffer, maxlen, "%T%s", "Caption With Distance", client, issuerName, distance, unitsPhrase, client, entityTranslationsName);
+		if( show_entity_phrases )
+		{
+			Format(buffer, maxlen, "%s| %.f %T | %T ", issuerName, distance, unitsPhrase, client, entity_phrases_key, client);
+		}
+		else
+		{
+			Format(buffer, maxlen, "%s | %.f %T", issuerName, distance, unitsPhrase, client);
+			// Format(buffer, maxlen, "%T", "Caption With Distance", client, issuerName, distance, unitsPhrase, client);
+		}
 	}
 	else
 	{
-		Format(buffer, maxlen, "%T%s", "Caption", client, issuerName, entityTranslationsName);
+		if( show_entity_phrases )
+		{
+			Format(buffer, maxlen, "%s | %T", issuerName, entity_phrases_key, client);
+		}
+		else
+		{
+			Format(buffer, maxlen, "%T", "Caption", client, issuerName);
+		}
 	}
 }
 
@@ -651,7 +662,14 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	char issuerName[MAX_NAME_LENGTH];
 	GetClientName(issuer, issuerName, sizeof(issuerName));
 
-	DrawInstructorToAll(entity, pos, g_PingColor[issuer], issuerName, duration, showDistance);
+	bool showEntityPhrases = false;
+	char entityPhrasesKey[64] = "";
+	if( cvShowEntityName.IntValue >= 0 )
+	{
+		showEntityPhrases = GetEntityPhrasesKey(entity, entityPhrasesKey, sizeof(entityPhrasesKey));
+	}
+
+	DrawInstructorToAll(entity, pos, g_PingColor[issuer], issuerName, duration, showDistance, showEntityPhrases, entityPhrasesKey);
 
 	if (!showDistance)
 	{
@@ -666,6 +684,8 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	data.WriteCellArray(g_PingColor[issuer], sizeof(g_PingColor[]));
 	data.WriteString(issuerName);
 	data.WriteCell(showDistance);
+	data.WriteCell(showEntityPhrases);
+	data.WriteString(entityPhrasesKey);
 }
 
 Action Timer_UpdateInstructorAll(Handle timer, DataPack data)
@@ -691,7 +711,12 @@ Action Timer_UpdateInstructorAll(Handle timer, DataPack data)
 
 	bool showDistance = data.ReadCell();
 
-	DrawInstructorToAll(entity, pos, color, issuerName, cvShowDistanceInterval.IntValue + 1, showDistance);
+	bool showEntityPhrases = data.ReadCell();
+
+	char entityPhrasesKey[64];
+	data.ReadString(entityPhrasesKey, sizeof(entityPhrasesKey));
+
+	DrawInstructorToAll(entity, pos, color, issuerName, cvShowDistanceInterval.IntValue + 1, showDistance, showEntityPhrases, entityPhrasesKey);
 	return Plugin_Continue;
 }
 
@@ -727,8 +752,8 @@ void HighlightEntity(int entity, int duration, int color[3])
 		return;
 	}
 
-	char classname[80];
-	GetEntityClassname(entity, classname, sizeof(classname));
+	// char classname[80];
+	// GetEntityClassname(entity, classname, sizeof(classname));
 
 	char rgb[40];
 	FormatEx(rgb, sizeof(rgb), "%d %d %d", color[R], color[G], color[B]);
@@ -791,7 +816,7 @@ void ForwardVector(const float vPos[3], const float vAng[3], float fDistance, fl
 	vReturn[2] += vDir[2] * fDistance;
 }
 
-void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false)
+void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false, bool showEntityPhrases, char[] entityPhrasesKey)
 {
 	duration = max(duration, 1);	// never infinite
 
@@ -815,7 +840,7 @@ void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] is
 		}
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, entity, caption, sizeof(caption));
+		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption), showEntityPhrases, entityPhrasesKey);
 
 		Event event = CreateEvent("instructor_server_hint_create", true);
 		event.SetString("hint_caption", caption);
@@ -1173,56 +1198,23 @@ int GetActivePings()
 	return count;
 }
 
-bool GetEntityTranslationsName(int entity, int client, char[] translationsName, int maxlength)
+bool GetEntityPhrasesKey(int entity, char[] phrases_key, int maxlength)
 {
 	if( ! IsValidEntity(entity) )
 	{
 		return false;
 	}
 
-	char entityClassName[64];
-	GetEntityClassname(entity, entityClassName, sizeof(entityClassName));
+	GetEntityClassname(entity, phrases_key, maxlength);
 
 	// If the entity is an ammo box, use model to distinguish
-	if( strncmp(entityClassName, "item_ammo_box", 13, true) == 0 )
+	if( strncmp(phrases_key, "item_ammo_box", 13, true) == 0 )
 	{
-		char entityModelName[PLATFORM_MAX_PATH];
-		GetEntPropString(entity, Prop_Data, "m_ModelName", entityModelName, PLATFORM_MAX_PATH);
-
-		if( cvEntityNameShort.BoolValue )
-		{
-			Format(entityModelName, sizeof(entityModelName), "%s, Short", entityModelName);
-		}
-		else
-		{
-			Format(entityModelName, sizeof(entityModelName), "%s, Long", entityModelName);
-		}
-		// LogMessage(entityModelName);
-
-		if( TranslationPhraseExists(entityModelName) )
-		{
-			Format(translationsName, maxlength, "-%T", entityModelName, client);
-			return true;
-		}
-	}
-	else
-	{
-		if( cvEntityNameShort.BoolValue )
-		{
-			Format(entityClassName, sizeof(entityClassName), "%s, Short", entityClassName);
-		}
-		else
-		{
-			Format(entityClassName, sizeof(entityClassName), "%s, Long", entityClassName);
-		}
-		// LogMessage(entityClassName);
-
-		if( TranslationPhraseExists(entityClassName) )
-		{
-			Format(translationsName, maxlength, "-%T", entityClassName, client);
-			return true;
-		}
+		GetEntPropString(entity, Prop_Data, "m_ModelName", phrases_key, PLATFORM_MAX_PATH);
 	}
 
-	return false;
+	Format(phrases_key, maxlength, "%s%s", phrases_key, cvShowEntityName.IntValue == 1 ? ", Short" : ", Long");
+	// LogMessage(phrases_key);
+
+	return TranslationPhraseExists(phrases_key);
 }
