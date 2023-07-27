@@ -532,7 +532,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 	}
 }
 
-void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen, bool show_entity_phrases, char[] entity_phrases_key)
+void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen, bool canShowEntityPhrases, char[] entityPhrasesKey)
 {
 	if (showDistance)
 	{
@@ -546,9 +546,9 @@ void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDist
 
 		char unitsPhrase[32];
 		GetUnitsPhrase(units, unitsPhrase, sizeof(unitsPhrase));
-		if( show_entity_phrases )
+		if( canShowEntityPhrases )
 		{
-			Format(buffer, maxlen, "%s| %.f %T | %T ", issuerName, distance, unitsPhrase, client, entity_phrases_key, client);
+			Format(buffer, maxlen, "%s| %.f %T | %T ", issuerName, distance, unitsPhrase, client, entityPhrasesKey, client);
 		}
 		else
 		{
@@ -558,9 +558,9 @@ void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDist
 	}
 	else
 	{
-		if( show_entity_phrases )
+		if( canShowEntityPhrases )
 		{
-			Format(buffer, maxlen, "%s | %T", issuerName, entity_phrases_key, client);
+			Format(buffer, maxlen, "%s | %T", issuerName, entityPhrasesKey, client);
 		}
 		else
 		{
@@ -662,14 +662,14 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	char issuerName[MAX_NAME_LENGTH];
 	GetClientName(issuer, issuerName, sizeof(issuerName));
 
-	bool showEntityPhrases = false;
+	bool canShowEntityPhrases = false;
 	char entityPhrasesKey[64] = "";
 	if( cvShowEntityName.IntValue >= 0 )
 	{
-		showEntityPhrases = GetEntityPhrasesKey(entity, entityPhrasesKey, sizeof(entityPhrasesKey));
+		canShowEntityPhrases = GetEntityPhrasesKey(entity, entityPhrasesKey, sizeof(entityPhrasesKey));
 	}
 
-	DrawInstructorToAll(entity, pos, g_PingColor[issuer], issuerName, duration, showDistance, showEntityPhrases, entityPhrasesKey);
+	DrawInstructorToAll(entity, pos, g_PingColor[issuer], issuerName, duration, showDistance, canShowEntityPhrases, entityPhrasesKey);
 
 	if (!showDistance)
 	{
@@ -684,7 +684,7 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	data.WriteCellArray(g_PingColor[issuer], sizeof(g_PingColor[]));
 	data.WriteString(issuerName);
 	data.WriteCell(showDistance);
-	data.WriteCell(showEntityPhrases);
+	data.WriteCell(canShowEntityPhrases);
 	data.WriteString(entityPhrasesKey);
 }
 
@@ -702,6 +702,12 @@ Action Timer_UpdateInstructorAll(Handle timer, DataPack data)
 
 	float pos[3];
 	data.ReadFloatArray(pos, sizeof(pos));
+	// If in the player's inventory, the location of the entity is fixed to where it was when it was picked up.
+	// Todo: What should be obtained is the player's position
+	if( IsValidEntity(entity) )
+	{
+		GetEntityAbsOrigin(entity, pos);
+	}
 
 	int color[3];
 	data.ReadCellArray(color, sizeof(color));
@@ -816,7 +822,7 @@ void ForwardVector(const float vPos[3], const float vAng[3], float fDistance, fl
 	vReturn[2] += vDir[2] * fDistance;
 }
 
-void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false, bool showEntityPhrases, char[] entityPhrasesKey)
+void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false, bool canShowEntityPhrases, char[] entityPhrasesKey)
 {
 	duration = max(duration, 1);	// never infinite
 
@@ -840,7 +846,7 @@ void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] is
 		}
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption), showEntityPhrases, entityPhrasesKey);
+		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption), canShowEntityPhrases, entityPhrasesKey);
 
 		Event event = CreateEvent("instructor_server_hint_create", true);
 		event.SetString("hint_caption", caption);
