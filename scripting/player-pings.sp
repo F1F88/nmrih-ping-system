@@ -22,7 +22,7 @@
 #define A				   3
 
 #define PLUGIN_DESCRIPTION "Allows players to highlight entities and place markers in the world"
-#define PLUGIN_VERSION	   "1.0.5"
+#define PLUGIN_VERSION	   "1.0.6"
 
 public Plugin myinfo =
 {
@@ -31,6 +31,15 @@ public Plugin myinfo =
 	description = PLUGIN_DESCRIPTION,
 	version		= PLUGIN_VERSION,
 	url			= "https://github.com/dysphie/nmrih-ping-system"
+};
+
+// point_message flags
+enum
+{
+    POINT_MESSAGE_DEVELOPER_ONLY = 1 << 0,
+    POINT_MESSAGE_FONT_PROPORTIONAL = 1 << 1,
+    POINT_MESSAGE_FONT_DROP_SHADOW = 1 << 2,
+    POINT_MESSAGE_OFFSET_POSITION = 1 << 3,
 };
 
 enum Unit
@@ -230,8 +239,8 @@ int MenuHandler_CookiesMenu(Menu menu, MenuAction action, int param1, int param2
 
 		if (StrEqual(info, "toggle"))
 		{
-			bool optedOut = optOutCookie.GetInt(client) != 0;
-			optOutCookie.SetInt(client, !optedOut);
+			bool optedOut = _CookieGetInt(optOutCookie, client) != 0;
+			_CookieSetInt(optOutCookie, client, !optedOut);
 		}
 
 		else if (StrEqual(info, "units"))
@@ -520,7 +529,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 		BfWrite bf	= UserMessageToBfWrite(msg);
 		bf.WriteString(caption);
 		bf.WriteShort(pingID);
-		bf.WriteShort(0);	 // flags
+		bf.WriteShort(POINT_MESSAGE_FONT_PROPORTIONAL|POINT_MESSAGE_FONT_DROP_SHADOW);	 // flags
 		bf.WriteVecCoord(adjustedPos);
 		bf.WriteFloat(cvRange.FloatValue);	  // radius
 		bf.WriteString("PointMessageDefault");
@@ -1032,7 +1041,7 @@ any max(any x, any y)
 
 bool HasPingsEnabled(int client)
 {
-	return !g_ClientPrefs || optOutCookie.GetInt(client) == 0;
+	return !g_ClientPrefs || _CookieGetInt(optOutCookie, client) == 0;
 }
 
 public void OnClientConnected(int client)
@@ -1124,7 +1133,7 @@ Unit GetClientUnits(int client)
 		return view_as<Unit>(cvDistanceUnits.IntValue);
 	}
 
-	Unit cookieVal = view_as<Unit>(unitsCookie.GetInt(client) - 1);
+	Unit cookieVal = view_as<Unit>(_CookieGetInt(unitsCookie, client) - 1);
 	if (cookieVal <= Unit_Default || cookieVal >= Unit_MAX)
 	{
 		cookieVal = view_as<Unit>(cvDistanceUnits.IntValue);
@@ -1134,7 +1143,22 @@ Unit GetClientUnits(int client)
 
 void SetClientUnits(int client, Unit units)
 {
-	unitsCookie.SetInt(client, view_as<int>(units) + 1);
+	_CookieSetInt(unitsCookie, client, view_as<int>(units) + 1);
+}
+
+// Backport Cookie.SetInt/GetInt methods from 1.12
+void _CookieSetInt(Cookie cookie, int client, int value)
+{
+	char str[12];
+	IntToString(value, str, sizeof(str));
+	cookie.Set(client, str);
+}
+
+int _CookieGetInt(Cookie cookie, int client)
+{
+	char value[12];
+	cookie.Get(client, value, sizeof(value));
+	return StringToInt(value);
 }
 
 float GetUnitMultiplier(Unit units)
