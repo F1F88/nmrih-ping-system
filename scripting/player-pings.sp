@@ -51,6 +51,19 @@ enum Unit
 	Unit_MAX
 }
 
+enum
+{
+    ShowEntityNameType_Disabled = 1 << 0,
+    ShowEntityNameType_Abbreviation = 1 << 1,
+    ShowEntityNameType_Complete = 1 << 2,
+};
+
+enum
+{
+    ShortKeyType_EE = 1 << 0,
+    ShortKeyType_ER = 1 << 1,
+};
+
 bool   g_ClientPrefs;
 
 ConVar cvEnabled;
@@ -273,7 +286,7 @@ void OnPingSoundConVarChanged(ConVar convar, const char[] oldValue, const char[]
 
 public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 {
-	if( cvCMDPingShortKey.IntValue & 1 )
+	if( cvCMDPingShortKey.IntValue & ShortKeyType_EE )
 	{
 		if ((buttons & IN_VOICECMD) && (buttons & IN_USE) && cvEnabled.BoolValue)
 		{
@@ -284,7 +297,7 @@ public Action OnPlayerRunCmd(int client, int &buttons, int &impulse, float vel[3
 			}
 		}
 	}
-	else // if( cvPingShortcutKey.IntValue & 2 )
+	else // if( cvPingShortcutKey.IntValue & ShortKeyType_ER )
 	{
 		if ((buttons & IN_VOICECMD) && (buttons & IN_RELOAD) && cvEnabled.BoolValue)
 		{
@@ -495,7 +508,7 @@ void BeginDrawWorldTextAll(float pos[3], int issuer, int duration, int moveParen
 	{
 		// Otherwise we constantly update the thing
 		DataPack data;
-		CreateDataTimer(cvShowDistanceInterval.FloatValue, Timer_UpdateWorldTextAll, data, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);	
+		CreateDataTimer(cvShowDistanceInterval.FloatValue, Timer_UpdateWorldTextAll, data, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
 		data.WriteCell(pingID);
 		data.WriteCell(moveParent != -1 ? EntIndexToEntRef(moveParent) : -1);
 		data.WriteFloat(GetGameTime() + (float)(duration));
@@ -524,7 +537,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 		SetGlobalTransTarget(client);
 
 		char caption[255];
-		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption), false, "");
+		FormatCaptionForClient(issuerName, pos, showDistance, client, caption, sizeof(caption));
 
 		Handle	msg = StartMessageOne("PointMessage", client, USERMSG_BLOCKHOOKS);
 		BfWrite bf	= UserMessageToBfWrite(msg);
@@ -543,7 +556,7 @@ void DrawWorldTextAll(int pingID, float pos[3], int color[3], const char[] issue
 	}
 }
 
-void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen, bool canShowEntityPhrases, char[] entityPhrasesKey)
+void FormatCaptionForClient(const char[] issuerName, float pos[3], bool showDistance, int client, char[] buffer, int maxlen, bool canShowEntityPhrases=false, char[] entityPhrasesKey="")
 {
 	if (showDistance)
 	{
@@ -610,10 +623,10 @@ Action Timer_UpdateWorldTextAll(Handle timer, DataPack data)
 
 	int moveParent = -1;
 	int moveParentRef = data.ReadCell();
-	if (moveParentRef != INVALID_ENT_REFERENCE) 
-	{ 
+	if (moveParentRef != INVALID_ENT_REFERENCE)
+	{
 		moveParent = EntRefToEntIndex(moveParentRef);
-		if (moveParent == -1) 
+		if (moveParent == -1)
 		{
 			RemoveWorldTextAll(pingID);
 			return Plugin_Stop;
@@ -637,7 +650,7 @@ Action Timer_UpdateWorldTextAll(Handle timer, DataPack data)
 	char issuerName[MAX_NAME_LENGTH];
 	data.ReadString(issuerName, sizeof(issuerName));
 
-	
+
 	DrawWorldTextAll(pingID, pos, color, issuerName, true, moveParent);
 	return Plugin_Continue;
 }
@@ -688,8 +701,8 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	GetClientName(issuer, issuerName, sizeof(issuerName));
 
 	bool canShowEntityPhrases = false;
-	char entityPhrasesKey[64] = "";
-	if( cvShowEntityName.IntValue >= 0 )
+	char entityPhrasesKey[64];
+	if( cvShowEntityName.IntValue > 0 )
 	{
 		canShowEntityPhrases = GetEntityPhrasesKey(entity, entityPhrasesKey, sizeof(entityPhrasesKey));
 	}
@@ -705,7 +718,6 @@ void BeginDrawInstructorAll(int entity, int issuer, int duration)
 	CreateDataTimer(cvShowDistanceInterval.FloatValue, Timer_UpdateInstructorAll, data, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
 	data.WriteFloat(GetGameTime() + (float)(duration));
 	data.WriteCell(EntIndexToEntRef(entity));
-	data.WriteFloatArray(pos, sizeof(pos));
 	data.WriteCellArray(g_PingColor[issuer], sizeof(g_PingColor[]));
 	data.WriteString(issuerName);
 	data.WriteCell(showDistance);
@@ -726,10 +738,12 @@ Action Timer_UpdateInstructorAll(Handle timer, DataPack data)
 	}
 
 	float pos[3];
-	data.ReadFloatArray(pos, sizeof(pos));
-	// If in the player's inventory, the location of the entity is fixed to where it was when it was picked up.
-	// Todo: What should be obtained is the player's position
-	if( IsValidEntity(entity) )
+	int owner = GetEntPropEnt(entity, Prop_Data, "m_hOwnerEntity");
+	if( owner <= MaxClients && owner > 0 && IsClientInGame(owner) )
+	{
+		GetEntityAbsOrigin(owner, pos);
+	}
+	else
 	{
 		GetEntityAbsOrigin(entity, pos);
 	}
@@ -742,12 +756,19 @@ Action Timer_UpdateInstructorAll(Handle timer, DataPack data)
 
 	bool showDistance = data.ReadCell();
 
-	bool showEntityPhrases = data.ReadCell();
+	bool canShowEntityPhrases = data.ReadCell();
+	if( canShowEntityPhrases )
+	{
+		char entityPhrasesKey[64];
+		data.ReadString(entityPhrasesKey, sizeof(entityPhrasesKey));
 
-	char entityPhrasesKey[64];
-	data.ReadString(entityPhrasesKey, sizeof(entityPhrasesKey));
+		DrawInstructorToAll(entity, pos, color, issuerName, cvShowDistanceInterval.IntValue + 1, showDistance, canShowEntityPhrases, entityPhrasesKey);
+	}
+	else
+	{
+		DrawInstructorToAll(entity, pos, color, issuerName, cvShowDistanceInterval.IntValue + 1, showDistance);
+	}
 
-	DrawInstructorToAll(entity, pos, color, issuerName, cvShowDistanceInterval.IntValue + 1, showDistance, showEntityPhrases, entityPhrasesKey);
 	return Plugin_Continue;
 }
 
@@ -847,7 +868,7 @@ void ForwardVector(const float vPos[3], const float vAng[3], float fDistance, fl
 	vReturn[2] += vDir[2] * fDistance;
 }
 
-void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false, bool canShowEntityPhrases, char[] entityPhrasesKey)
+void DrawInstructorToAll(int entity, float pos[3], int color[3], const char[] issuerName, int duration, bool showDistance = false, bool canShowEntityPhrases=false, char[] entityPhrasesKey="")
 {
 	duration = max(duration, 1);	// never infinite
 
@@ -1259,7 +1280,7 @@ bool GetEntityPhrasesKey(int entity, char[] phrases_key, int maxlength)
 		GetEntPropString(entity, Prop_Data, "m_ModelName", phrases_key, PLATFORM_MAX_PATH);
 	}
 
-	Format(phrases_key, maxlength, "%s%s", phrases_key, cvShowEntityName.IntValue == 1 ? ", Short" : ", Long");
+	Format(phrases_key, maxlength, "%s%s", phrases_key, cvShowEntityName.IntValue == ShowEntityNameType_Abbreviation ? ", Short" : ", Long");
 	// LogMessage(phrases_key);
 
 	return TranslationPhraseExists(phrases_key);
