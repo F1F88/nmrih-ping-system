@@ -362,7 +362,7 @@ void DoPing(int client, int duration)
 	int	   rayEnt	= TR_GetEntityIndex(rayTrace);
 
 	// Check if we hit an entity with the ray
-	if (IsValidEdict(rayEnt) && CouldEntityGlow(rayEnt))
+	if ( rayEnt && IsValidEdict(rayEnt) && CouldEntityGlow(rayEnt))
 	{
 		float endPos[3];
 		TR_GetEndPosition(endPos, rayTrace);
