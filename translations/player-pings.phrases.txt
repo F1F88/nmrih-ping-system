@@ -210,7 +210,7 @@
         "es"        "Ingram Mac-10"
     }
 
-    "fa_mp5a4, Long"
+    "fa_mp5a3, Long"
     {
         "en"        "Heckler & Koch MP5A4"
         "es"        "Heckler & Koch MP5A4"
