@@ -72,6 +72,7 @@ ConVar cvColorR;
 ConVar cvColorG;
 ConVar cvColorB;
 ConVar cvRange;
+ConVar cvTraceWidth;
 ConVar cvIcon;
 ConVar cvIconOffset;
 ConVar cvBucketSize;
@@ -164,6 +165,7 @@ public void OnPluginStart()
 	cvRandomizeColor	   = CreateConVar("sm_ping_color_randomize", "1", "If true, randomize the ping color for each player instead of using RGB variables");
 	cvLifetime			   = CreateConVar("sm_ping_lifetime", "8", "The lifetime of player pings in seconds", _, true, 1.0);
 	cvRange				   = CreateConVar("sm_ping_range", "3000", "The maximum reach of the player ping trace in game units");
+	cvTraceWidth		   = CreateConVar("sm_ping_trace_width", "16.0", "Trace width");
 	cvIcon				   = CreateConVar("sm_ping_icon", "icon_interact", "The icon used for player pings. Empty to disable");
 	cvSound				   = CreateConVar("sm_ping_sound", "ui/hint.wav", "The sound used for player pings");
 	cvCircleRadius		   = CreateConVar("sm_ping_circle_radius", "9.0", "Radius of the ping circle");
@@ -381,7 +383,7 @@ void DoPing(int client, int duration)
 	float hullEnd[3];
 	ForwardVector(eyePos, eyeAng, cvRange.FloatValue, hullEnd);
 
-	float traceWidth = 16.0;
+	float traceWidth = cvTraceWidth.FloatValue;
 
 	float hullMins[3];
 	hullMins[0] = -traceWidth;
@@ -395,22 +397,25 @@ void DoPing(int client, int duration)
 
 	Handle hullTrace = TR_TraceHullFilterEx(hullStart, hullEnd, hullMins, hullMaxs, MASK_VISIBLE, TraceFilter_Ping, client);
 
-	int	   hullEnt	 = TR_GetEntityIndex(hullTrace);
-
-	if (!IsValidEntity(hullEnt) || !CouldEntityGlow(hullEnt))
+	// If we didn't hit anything, no ping is needed
+	if( TR_DidHit(hullTrace) )
 	{
-		// If we didn't hit anything glowable with the hull, prefer ray trace and ping the world
-		float endPos[3];
-		TR_GetEndPosition(endPos, rayTrace);
+		int hullEnt  = TR_GetEntityIndex(hullTrace);
+		if (!IsValidEntity(hullEnt) || !CouldEntityGlow(hullEnt))
+		{
+			// If we didn't hit anything glowable with the hull, prefer ray trace and ping the world
+			float endPos[3];
+			TR_GetEndPosition(endPos, rayTrace);
 
-		float normal[3];
-		TR_GetPlaneNormal(rayTrace, normal);
+			float normal[3];
+			TR_GetPlaneNormal(rayTrace, normal);
 
-		PingWorld(endPos, normal, client, duration);
-	}
-	else
-	{
-		PingEntity(hullEnt, client, duration);
+			PingWorld(endPos, normal, client, duration);
+		}
+		else
+		{
+			PingEntity(hullEnt, client, duration);
+		}
 	}
 
 	delete hullTrace;
