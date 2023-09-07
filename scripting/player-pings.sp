@@ -366,12 +366,16 @@ void DoPing(int client, int duration)
 	// Check if we hit an entity with the ray
 	if (IsValidEdict(rayEnt) && CouldEntityGlow(rayEnt))
 	{
-		float endPos[3];
+		float endPos[3], entity_distance;
 		TR_GetEndPosition(endPos, rayTrace);
 
-		PingEntity(rayEnt, client, duration);
-
+		entity_distance = GetVectorDistance(eyePos, endPos);
 		delete rayTrace;
+
+		if (FloatCompare(entity_distance, cvRange.FloatValue) <= 0)
+		{
+			PingEntity(rayEnt, client, duration);
+		}
 		return;
 	}
 
