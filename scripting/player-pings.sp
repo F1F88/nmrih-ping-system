@@ -355,75 +355,66 @@ Action Cmd_Ping(int client, int args)
 
 void DoPing(int client, int duration)
 {
-	float eyeAng[3], eyePos[3];
+	float eyeAng[3], eyePos[3], startPos[3], EndPos[3];
+
 	GetClientEyeAngles(client, eyeAng);
 	GetClientEyePosition(client, eyePos);
+	ForwardVector(eyePos, eyeAng, 16.0, startPos);
+	ForwardVector(eyePos, eyeAng, cvRange.FloatValue, EndPos);
 
 	// Start with an accurate trace ray
-	Handle rayTrace = TR_TraceRayFilterEx(eyePos, eyeAng, MASK_VISIBLE, RayType_Infinite, TraceFilter_Ping, client);
-	int	   rayEnt	= TR_GetEntityIndex(rayTrace);
+	Handle trace 	= TR_TraceRayFilterEx(startPos, EndPos, MASK_VISIBLE, RayType_EndPoint, TraceFilter_Ping, client);
+	int	   entity	= TR_GetEntityIndex(trace);
+
+	delete trace;
 
 	// Check if we hit an entity with the ray
-	if (IsValidEdict(rayEnt) && CouldEntityGlow(rayEnt))
+	if (IsValidEdict(entity) && CouldEntityGlow(entity))
 	{
-		float endPos[3], entity_distance;
-		TR_GetEndPosition(endPos, rayTrace);
+		// float endPos[3];
+		// TR_GetEndPosition(endPos, trace);
 
-		entity_distance = GetVectorDistance(eyePos, endPos);
-		delete rayTrace;
-
-		if (FloatCompare(entity_distance, cvRange.FloatValue) <= 0)
-		{
-			PingEntity(rayEnt, client, duration);
-		}
+		PingEntity(entity, client, duration);
 		return;
 	}
 
 	// If we hit nothing, try again using a swept hull
 
-	float hullStart[3];
-	ForwardVector(eyePos, eyeAng, 32.0, hullStart);
-
-	float hullEnd[3];
-	ForwardVector(eyePos, eyeAng, cvRange.FloatValue, hullEnd);
-
 	float traceWidth = cvTraceWidth.FloatValue;
 
 	float hullMins[3];
-	hullMins[0] = -traceWidth;
-	hullMins[1] = -traceWidth;
-	hullMins[2] = -traceWidth;
+	hullMins[0] 	 = -traceWidth;
+	hullMins[1] 	 = -traceWidth;
+	hullMins[2] 	 = -traceWidth;
 
 	float hullMaxs[3];
 	hullMaxs[0]		 = traceWidth;
 	hullMaxs[1]		 = traceWidth;
 	hullMaxs[2]		 = traceWidth;
 
-	Handle hullTrace = TR_TraceHullFilterEx(hullStart, hullEnd, hullMins, hullMaxs, MASK_VISIBLE, TraceFilter_Ping, client);
+	trace = TR_TraceHullFilterEx(startPos, EndPos, hullMins, hullMaxs, MASK_VISIBLE, TraceFilter_Ping, client);
 
 	// If we didn't hit anything, no ping is needed
-	if( TR_DidHit(hullTrace) )
+	if( TR_DidHit(trace) )
 	{
-		int hullEnt  = TR_GetEntityIndex(hullTrace);
-		if (!IsValidEntity(hullEnt) || !CouldEntityGlow(hullEnt))
+		entity = TR_GetEntityIndex(trace);
+		if (!IsValidEntity(entity) || !CouldEntityGlow(entity))
 		{
 			// If we didn't hit anything glowable with the hull, prefer ray trace and ping the world
 			float endPos[3];
-			TR_GetEndPosition(endPos, rayTrace);
+			TR_GetEndPosition(endPos, trace);
 
 			float normal[3];
-			TR_GetPlaneNormal(rayTrace, normal);
+			TR_GetPlaneNormal(trace, normal);
 
 			PingWorld(endPos, normal, client, duration);
 		}
 		else
 		{
-			PingEntity(hullEnt, client, duration);
+			PingEntity(entity, client, duration);
 		}
 	}
-
-	delete hullTrace;
-	delete rayTrace;
+	delete trace;
 }
 
 bool CouldEntityGlow(int entity)
