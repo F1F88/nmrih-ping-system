@@ -108,6 +108,30 @@
     // * Translation source
     // - https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_english.txt
     // - https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_spanish.txt
+	"npc_nmrih_shamblerzombie"
+	{
+		"en"		"Zombie"
+		"es"		"Zombi"
+	}
+
+	"npc_nmrih_runnerzombie"
+	{
+		"en"		"Runner Zombie"
+		"es"		"Zombi Corredor"
+	}
+
+	"npc_nmrih_kidzombie"
+	{
+		"en"		"Kid Zombie"
+		"es"		"Niño Zombi"
+	}
+
+	"npc_nmrih_turnedzombie"
+	{
+		"en"		"Turned Zombie"
+		"es"		"Zombi Convertido"
+	}
+
     "bow_deerhunter, Long"
     {
         "en"        "PSE Deer Hunter"

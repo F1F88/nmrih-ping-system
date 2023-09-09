@@ -90,6 +90,26 @@
 
 
     // * 翻译取自: https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_schinese.txt
+	"npc_nmrih_shamblerzombie"
+	{
+		"chi"			"丧尸"
+	}
+
+	"npc_nmrih_runnerzombie"
+	{
+		"chi"			"跑尸"
+	}
+
+	"npc_nmrih_kidzombie"
+	{
+		"chi"			"丧尸小孩"
+	}
+
+	"npc_nmrih_turnedzombie"
+	{
+		"chi"			"丧尸队友"
+	}
+
     "bow_deerhunter, Long"
     {
         "chi"        "PSE 猎鹿者 复合弓"
