@@ -90,22 +90,22 @@
 
 
     // * 翻译取自: https://github.com/nmrih/nmrih-localization-files/blob/master/nmrih/resource/nmrih_schinese.txt
-	"npc_nmrih_shamblerzombie"
+	"npc_nmrih_shamblerzombie, Long"
 	{
 		"chi"			"丧尸"
 	}
 
-	"npc_nmrih_runnerzombie"
+	"npc_nmrih_runnerzombie, Long"
 	{
 		"chi"			"跑尸"
 	}
 
-	"npc_nmrih_kidzombie"
+	"npc_nmrih_kidzombie, Long"
 	{
 		"chi"			"丧尸小孩"
 	}
 
-	"npc_nmrih_turnedzombie"
+	"npc_nmrih_turnedzombie, Long"
 	{
 		"chi"			"丧尸队友"
 	}
@@ -113,7 +113,7 @@
     "bow_deerhunter, Long"
     {
         "chi"        "PSE 猎鹿者 复合弓"
-    }
+	}
 
     "exp_grenade, Long"
     {
@@ -439,6 +439,26 @@
     {
         "chi"        "箭"
     }
+
+	"npc_nmrih_shamblerzombie, Short"
+	{
+		"chi"			"丧尸"
+	}
+
+	"npc_nmrih_runnerzombie, Short"
+	{
+		"chi"			"跑尸"
+	}
+
+	"npc_nmrih_kidzombie, Short"
+	{
+		"chi"			"丧尸小孩"
+	}
+
+	"npc_nmrih_turnedzombie, Short"
+	{
+		"chi"			"丧尸队友"
+	}
 
     "bow_deerhunter, Short"
     {
